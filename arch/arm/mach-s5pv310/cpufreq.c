@@ -1099,7 +1099,7 @@ void s5pv310_set_frequency(unsigned int old_index, unsigned int new_index)
 
 	if (freqs.old < freqs.new) {
 #ifdef CONFIG_CPU_S5PV310_EVT1
-		if (s5pv310_max_armclk == ARMCLOCK_1200MHZ) {
+		if (s5pv310_max_armclk == ARMCLOCK_1600MHZ) {
 			/* L3/L5, L4/L6 Level change require to only change s value */
 			if (is_curfreq_table &&
 				(((old_index == L5) && (new_index == L3)) ||
@@ -1162,7 +1162,7 @@ void s5pv310_set_frequency(unsigned int old_index, unsigned int new_index)
 #endif
 	} else if (freqs.old > freqs.new) {
 #ifdef CONFIG_CPU_S5PV310_EVT1
-		if (s5pv310_max_armclk == ARMCLOCK_1200MHZ) {
+		if (s5pv310_max_armclk == ARMCLOCK_1600MHZ) {
 			/* L3/L5, L4/L6 Level change require to only change s value */
 			if (is_curfreq_table &&
 				(((old_index == L3) && (new_index == L5)) ||
@@ -1311,7 +1311,7 @@ static int s5pv310_target(struct cpufreq_policy *policy,
 
 	target_index = index;
 
-	if (s5pv310_max_armclk == ARMCLOCK_1200MHZ) {
+	if (s5pv310_max_armclk == ARMCLOCK_1600MHZ) {
 #ifdef CONFIG_FREQ_STEP_UP_L2_L0
 		/* change L2 -> L0 */
 		if ((index == L0) && (old_index > L4))
