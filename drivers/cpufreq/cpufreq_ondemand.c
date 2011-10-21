@@ -36,8 +36,8 @@
 #define DEF_FREQUENCY_DOWN_DIFFERENTIAL		(5)
 #define DEF_FREQUENCY_UP_THRESHOLD		(85)
 #define MICRO_FREQUENCY_DOWN_DIFFERENTIAL	(3)
-#define MICRO_FREQUENCY_UP_THRESHOLD		(95)
-#define MICRO_FREQUENCY_MIN_SAMPLE_RATE		(10000)
+#define MICRO_FREQUENCY_UP_THRESHOLD		(85)
+#define MICRO_FREQUENCY_MIN_SAMPLE_RATE		(5000)
 #define MIN_FREQUENCY_UP_THRESHOLD		(11)
 #define MAX_FREQUENCY_UP_THRESHOLD		(100)
 
@@ -142,9 +142,9 @@ static struct dbs_tuners {
 	.up_threshold = DEF_FREQUENCY_UP_THRESHOLD,
 	.down_differential = DEF_FREQUENCY_DOWN_DIFFERENTIAL,
 	.ignore_nice = 0,
-	.powersave_bias = 0,
-	.deep_sleep = 0,
-	.fast_start = 0,
+	.powersave_bias = 100,
+	.deep_sleep = 1,
+	.fast_start = 1,
 };
 
 static inline cputime64_t get_cpu_idle_time_jiffy(unsigned int cpu,
