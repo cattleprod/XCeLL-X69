@@ -189,7 +189,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
-CROSS_COMPILE	?= /opt/toolchains/arm-2009q3/bin/arm-none-linux-gnueabi-
+CROSS_COMPILE	?= 
 CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
 
 # Architecture as present in compile.h
@@ -333,10 +333,10 @@ CHECK		= sparse
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 MODFLAGS	= -DMODULE
-CFLAGS_MODULE   = $(MODFLAGS)
+CFLAGS_MODULE   = $(MODFLAGS) -finline-functions -fsingle-precision-constant -fpredictive-commoning -ftree-loop-linear -floop-strip-mine -floop-block -funroll-loops
 AFLAGS_MODULE   = $(MODFLAGS)
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
-CFLAGS_KERNEL	=
+CFLAGS_KERNEL	= -finline-functions -fsingle-precision-constant -fpredictive-commoning -ftree-loop-linear -floop-strip-mine -floop-block -funroll-loops 
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
@@ -353,7 +353,9 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks
+		   -fno-delete-null-pointer-checks \
+		   -mtune=cortex-a9 -march=armv7-a \
+		   -mfpu=vfpv3 -mfloat-abi=hard 
 #change@wtl.kSingh - enabling FIPS mode - starts
 ifeq ($(USE_SEC_FIPS_MODE),true)
 KBUILD_CFLAGS += -DSEC_FIPS_ENABLED
@@ -536,7 +538,7 @@ endif # $(dot-config)
 all: vmlinux
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Os
+KBUILD_CFLAGS	+= -O1
 else
 KBUILD_CFLAGS	+= -O2
 endif
